@@ -1,0 +1,30 @@
+<html>
+  <head>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
+      <link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" integrity="sha384-dNpIIXE8U05kAbPhy3G1cz+yZmTzA6CY8Vg/u2L9xRnHjJiAK76m2BIEaSEV+/aU" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"/>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+<body>
+    <div class="container-fluid" style="max-width:1200px">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Leaflet.offline example</h1>
+          </div>
+          <div class="col-md-7">
+            <div id="map" style="height: 75vh"></div>
+          </div>
+          <div class="col-md-5">
+            <p>Progress: <span id="progress"></span> / <span id="total"></span></p>
+            <p>Current storage: <span id="storage"></span> files
+              <button class="btn btn-danger" id="remove_tiles">
+                <i class="fa fa-trash" aria-hidden="true"  title="Remove tiles"></i>
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    
+  <script src="./index.js"></script>
+</body>
+</html>
