@@ -56,12 +56,50 @@ const featureStyle = (feature) => {
   };
 }
 
+class InfoBox {
+  constructor(title, array) {
+    this.title = title;
+    this.array = array;
+    this.open = false;
+  }
+
+  init() {
+    this.div = document.createElement('div');
+    this.div.className = 'info-box';
+    document.body.appendChild(this.div)
+    this.div.addEventListener('click', (evt) => {
+      this.open = !this.open;
+      this.render();
+    });
+    if (this.title) {
+      this.render();
+    }
+  }
+
+  update(title, array) {
+    this.title = title;
+    this.array = array;
+    this.render();
+  }
+
+  render() {
+    this.div.classList.add('active');
+    const info = this.open ? `<ul class='info-box-info'>${this.array.map((candidate) => `<li>${candidate.name}</li>`).join(' ')}</ul>` : '';
+    this.div.innerHTML = `<div class='info-box-inner'>
+      <p class='info-box-title'>You're in Ward ${this.title}</p>
+      ${info}
+    </div>`;
+  }
+}
+
 class Map {
   constructor() {
     this.map = null;
     this.baseLayer = null;
     this.wards = [];
     this.marker = null;
+    this.info = [];
+    this.infoShown = false;
   }
 
   init() {
@@ -71,9 +109,8 @@ class Map {
       minZoom: MINZOOM,
     }).addTo(this.map);
     this.map.setView(HOME, 3);
-    this.infoBox = document.createElement('div');
-    this.infoBox.className = 'info-box';
-    document.body.appendChild(this.infoBox)
+    this.infoBox = new InfoBox(null, null);
+    this.infoBox.init();
   }
 
   loadFeatures(data) {
@@ -102,16 +139,10 @@ class Map {
   }
 
   showInfo() {
-    this.infoBox.classList.add('active');
-    this.infoBox.innerHTML = `<div class='info-box-inner'>
-      <p class='info-box-title'>You're in Ward ${this.ward.feature.properties.AREA_NAME}</p>
-    </div>`;
-    this.infoBox.addEventListener('click', (evt) => {
-      this.infoBox.innerHTML = `<div class='info-box-inner'>
-        <p class='info-box-title'>You're in Ward ${this.ward.feature.properties.AREA_NAME}</p>
-        <div>${councillorsByWard[this.ward.feature.properties.AREA_NAME].map((candidate) => candidate.name)}</div>
-      </div>`;
-    })
+    this.infoBox.update(
+      this.ward.feature.properties.AREA_NAME, 
+      councillorsByWard[this.ward.feature.properties.AREA_NAME]
+    );
   }
 
   dropPin(latlng) {
