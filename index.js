@@ -7,6 +7,8 @@ import markerRetina from './images/marker-icon-2x.png'
 import shadow from './images/marker-shadow.png'
 import fs from 'fs';
 import Papa from 'papaparse';
+import parse from 'date-fns/parse';
+import format from 'date-fns/format';
 
 const csv = fs.readFileSync(__dirname + '/data/councillors.csv', 'utf8');
 
@@ -15,8 +17,6 @@ const output = Papa.parse(csv, {
 })
 
 const geojson = require('./data/wards.geojson')
-
-console.log(output)
 
 const councillorsByWard = output.data.reduce((memo, row) => {
   const ward = parseInt(row.ward)
@@ -29,11 +29,10 @@ const councillorsByWard = output.data.reduce((memo, row) => {
   }
 }, {})
 
-console.log(councillorsByWard)
-
 const PEARSON = [43.6777,-79.6248];
 const HOME = [43.6405289,-79.42441129999997];
 const WORK = [43.650308,-79.363612];
+const OTT = [45.4215, -75.6972];
 const NAVY = '#134c77';
 const TILE_URL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const ATTRIBUTION = 'Map data {attribution.OpenStreetMap}';
@@ -62,27 +61,53 @@ const featureStyle = (feature) => {
   };
 }
 
+function on(eventName, wrapper, selector, fn) {
+  wrapper.addEventListener(eventName, (evt) => {
+    const possibleTargets = Array.prototype.slice.call(wrapper.querySelectorAll(selector));
+    const target = evt.target;
+
+    possibleTargets.forEach((possibleTarget) => {
+      let el = target;
+      while (el && el !== wrapper) {
+        if (el === possibleTarget) {
+          return fn.call(possibleTarget, evt, possibleTarget);
+        }
+        el = el.parentNode;
+      }
+      return el;
+    });
+  }, eventName === 'blur');
+}
+
 class InfoBox {
   constructor(title, array) {
     this.title = title;
     this.array = array;
     this.open = false;
+    this.openIndex = null;
   }
 
   init() {
     this.div = document.createElement('div');
     this.div.className = 'info-box';
     document.body.appendChild(this.div)
-    this.div.addEventListener('click', (evt) => {
+    on('click', this.div, '.info-box-title', (event) => {
       this.open = !this.open;
       this.render();
     });
+
+    on('click', this.div, '.candidate', (event, target) => {
+      this.openIndex = parseInt(target.dataset['index'])
+      this.render();
+    });
+
     if (this.title) {
       this.render();
     }
   }
 
   update(title, array) {
+    this.openIndex = null;
     this.title = title;
     this.array = array;
     this.render();
@@ -90,9 +115,25 @@ class InfoBox {
 
   render() {
     this.div.classList.add('active');
-    const info = this.open ? `<ul class='info-box-info'>${this.array.map((candidate) => `<li>${candidate.name}</li>`).join(' ')}</ul>` : '';
+    const info = this.open ? `<ul class='info-box-info'>${this.array.map((candidate, index) => {
+      const date = `${format(parse(candidate.nomination_date), 'MMM Do')}`
+      return `<li>
+        <div data-index='${index}' class='candidate'>
+          <p>${candidate.name}</p>
+          <p class='nom-date'>${(parseInt(candidate.incumbent) === 1) ? '<strong>incumbent</strong>' : ''}</p>
+        </div>
+        <div class='candidate-info ${ this.openIndex === index ? 'active' : '' }'>
+          <ul>
+            <li><p>Nomination date</p><p>${date}</p></li>
+            ${candidate.email && `<li><p>Email</p><p><a href='mailto:${candidate.email}'>${candidate.email}</a></p></li>` }
+            ${candidate.website && `<li><p>Website</p><p><a href='http://${candidate.website}'>${candidate.website}</a></p></dd>` }
+            ${candidate.phone && `<li><p>Phone</p><p>${candidate.phone}</p></li>` }
+          </ul>
+        </div>
+      </li>`
+  }).join(' ')}</ul>` : '';
     this.div.innerHTML = `<div class='info-box-inner'>
-      <p class='info-box-title'>You're in Ward ${this.title}</p>
+      <p class='info-box-title'><span>Ward ${this.title}</span><span class='candidate-count'>${this.array.length} candidates</span></p>
       ${info}
     </div>`;
   }
@@ -140,7 +181,7 @@ class Map {
 
   geoLocate() {
     // setTimeout(() => {
-    //   this.dropPin(WORK);
+    //   this.dropPin(OTT);
     // }, 1000)
     navigator.geolocation.getCurrentPosition((position) => {
       this.dropPin([position.coords.latitude, position.coords.longitude]);
@@ -171,11 +212,13 @@ class Map {
     this.ward = this.wards.find((feature) => {
       return pointInPolygon(latlng, feature.feature.geometry.coordinates[0])
     });
-    this.ward.layer.setStyle({
-      weight: 3,
-      fillOpacity: 0.7
-    });
-    this.showInfo();
+    if (this.ward) {
+      this.ward.layer.setStyle({
+        weight: 3,
+        fillOpacity: 0.7
+      });
+      this.showInfo();
+    }
   }
 }
 
