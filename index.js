@@ -1,20 +1,25 @@
 import L from 'leaflet';
-import 'leaflet.offline';
-import json from './data/wards.json';
-import offline from './offline';
+import 'leaflet-ajax';
 import pointInPolygon from './point-in-polygon';
 import colours from './colours';
 import marker from './images/marker-icon.png'
 import markerRetina from './images/marker-icon-2x.png'
 import shadow from './images/marker-shadow.png'
+import fs from 'fs';
+import Papa from 'papaparse';
 
-import councillors from './data/councillors.json';
+const csv = fs.readFileSync(__dirname + '/data/councillors.csv', 'utf8');
 
-councillors.councillors.forEach((row) => {
+const output = Papa.parse(csv, {
+  header: true
 })
 
-const councillorsByWard = councillors.councillors.reduce((memo, row) => {
-  const ward = row.ward.replace(' ', '');
+const geojson = require('./data/wards.geojson')
+
+console.log(output)
+
+const councillorsByWard = output.data.reduce((memo, row) => {
+  const ward = parseInt(row.ward)
   if (memo[ward]) {
     memo[ward] = memo[ward].concat([row]);
     return memo;
@@ -23,6 +28,8 @@ const councillorsByWard = councillors.councillors.reduce((memo, row) => {
     return memo;
   }
 }, {})
+
+console.log(councillorsByWard)
 
 const PEARSON = [43.6777,-79.6248];
 const HOME = [43.6405289,-79.42441129999997];
@@ -39,7 +46,6 @@ const icon = L.icon(Object.assign(L.Icon.Default.prototype.options, {
   iconRetinaUrl: markerRetina,
   shadowUrl: shadow,
 }));
-
 
 const getColor = (wardString) => {
   const lastChar = wardString[wardString.length -1];
@@ -104,7 +110,7 @@ class Map {
 
   init() {
     this.map = L.map('map');
-    this.baseLayer = L.tileLayer.offline(TILE_URL, {
+    this.baseLayer = L.tileLayer(TILE_URL, {
       attribution: ATTRIBUTION,
       minZoom: MINZOOM,
     }).addTo(this.map);
@@ -113,8 +119,8 @@ class Map {
     this.infoBox.init();
   }
 
-  loadFeatures(data) {
-    this.geojson = L.geoJSON(data, {
+  loadFeatures() {
+    this.geojson = L.geoJSON.ajax(geojson, {
       style: featureStyle,
       onEachFeature: (feature, layer) => {
         this.wards.push({feature, layer});
@@ -133,15 +139,19 @@ class Map {
   }
 
   geoLocate() {
-    setTimeout(() => {
-      this.dropPin(WORK);
-    }, 1000)
+    // setTimeout(() => {
+    //   this.dropPin(WORK);
+    // }, 1000)
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.dropPin([position.coords.latitude, position.coords.longitude]);
+    });
   }
 
   showInfo() {
+    const name = parseInt(this.ward.feature.properties.AREA_NAME)
     this.infoBox.update(
-      this.ward.feature.properties.AREA_NAME, 
-      councillorsByWard[this.ward.feature.properties.AREA_NAME]
+      name,
+      councillorsByWard[name] || []
     );
   }
 
@@ -171,5 +181,5 @@ class Map {
 
 const map = new Map();
 map.init();
-map.loadFeatures(json);
+map.loadFeatures();
 map.geoLocate()
