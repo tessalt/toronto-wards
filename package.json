@@ -24,6 +24,7 @@
     "papaparse": "^4.5.0"
   },
   "devDependencies": {
+    "cssnano": "^4.0.3",
     "parcel-plugin-json-url-loader": "^0.1.1"
   }
 }
