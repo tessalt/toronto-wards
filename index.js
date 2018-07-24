@@ -189,7 +189,7 @@ class Map {
       console.log(error);
     }, {
       enableHighAccuracy: true,
-      timeout: 5000,
+      timeout: 10000,
       maximumAge: 0
     });
   }
