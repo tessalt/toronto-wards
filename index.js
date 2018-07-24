@@ -34,7 +34,7 @@ const HOME = [43.6405289,-79.42441129999997];
 const WORK = [43.650308,-79.363612];
 const OTT = [45.4215, -75.6972];
 const NAVY = '#134c77';
-const TILE_URL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const ATTRIBUTION = 'Map data {attribution.OpenStreetMap}';
 const MINZOOM = 11;
 const LOCALZOOM = 13;
@@ -185,6 +185,12 @@ class Map {
     // }, 1000)
     navigator.geolocation.getCurrentPosition((position) => {
       this.dropPin([position.coords.latitude, position.coords.longitude]);
+    }, (error) => {
+      console.log(error);
+    }, {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
     });
   }
 
