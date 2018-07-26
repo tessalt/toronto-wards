@@ -8,6 +8,7 @@ name,nomination_date,email,phone,website,ward,incumbent
 "Kelly, Erica",16-Jul-18,,,,3,
 "Campbell, John",04-May-18,jf.campbell@bell.net,416-526-1722,,4,1
 "Carnevale, Angelo",13-Jun-18,carnevale4councillor@gmail.com,647-881-9335,www.votecarnevale.com,4,
+"Gikas, George",26-Jul-18,,,,4,
 "Gough, Pamela",01-May-18,,,,5,
 "Nigro, Patrizia",31-May-18,,,,5,
 "Shaw, Michael",24-Jul-18,,,,5,
@@ -26,6 +27,7 @@ name,nomination_date,email,phone,website,ward,incumbent
 "Keshinro, Adeleke",18-Jul-18,,,,8,
 "La Rose, Winston",17-Jul-18,,,,8,
 "Li Preti, Ida",26-Jul-18,,,,8,
+"Charles, Kristy-Ann",26-Jul-18,,,,8,
 "Augimeri, Maria",01-May-18,,,,9,1
 "Hargoe, Moby",17-Jul-18,,,,9,
 "Russo, Louise",20-Jul-18,,,,9,
@@ -87,6 +89,7 @@ name,nomination_date,email,phone,website,ward,incumbent
 "Perez, Catherina",12-Jun-18,,,,21,
 "Plourde, Matthew",01-May-18,Info@matthewplourde.ca,416-747-6317,www.MatthewPlourde.ca,21,
 "Pancer, Randall",23-Jul-18,,,,21,
+"Gordanier, Tim",26-Jul-18,,,,21,
 "Forget, Richard",18-May-18,jrforget@live.ca,,forgetward22.ca,22,
 "Nguyen, John",11-Jun-18,john@nguyenjohn.ca,,,22,
 "Wong-Tam, Kristyn",01-May-18,contact@kristynwongtam.ca,647-951-9885,www.kristynwongtam.ca,22,1
@@ -97,12 +100,14 @@ name,nomination_date,email,phone,website,ward,incumbent
 "Aftab, Khuram",18-Jul-18,,,,23,
 "Cressy, Joe",01-May-18,,,www.joecressy.ca,24,1
 "Marques, Pedro",26-Jul-18,,,,24,
+"Barcelos, Michael",26-Jul-18,,,,24,
 "Lester, Ryan",25-Jun-18,,,,25,
 "Moise, Chris",01-May-18,chris@chrismoise.ca,647-493-0932,www.chrismoise.ca,25,
 "Monteyne, Jules",12-Jul-18,www.julesmonteyne.ca,"	1-416-848-7324",www.julesmonteyne.ca,25,
 "Ward, Nicki",14-May-18,admin@nickiward.ca,,www.NickiWard.ca,25,
 "Wiener, Kevin",25-Jun-18,,,,25,
 "King, Dan",26-Jul-18,,,,25,
+"Jeffery, John",26-Jul-18,,,,25,
 "Matlow, Josh",04-Jul-18,,,,26,1
 "Robinson, Jaye",31-May-18,,,,27,1
 "Ashley, Kyle",25-Jul-18,,,,27,
@@ -120,6 +125,7 @@ name,nomination_date,email,phone,website,ward,incumbent
 "Mathi, Sam",26-Jul-18,,,,28,
 "Herbst, Andrew",23-Jul-18,,,,29,
 "Kim, Albert",18-Jul-18,,,,29,
+"Shakeri, Hamid",26-Jul-18,,,,29,
 "Chen, Steven",09-Jul-18,,,,30,
 "Fox, Dan",07-May-18,dan@danfox.ca,,www.danfox.ca,30,
 "Hanecak, Ian",21-Jun-18,ian@ianhanecak.org,647-821-6916,www.ianhanecak.org,30,
@@ -174,6 +180,7 @@ name,nomination_date,email,phone,website,ward,incumbent
 "Mir, Sonny",01-May-18,,,,39,
 "Roy, Suman",03-May-18,suman@sumanroy.ca,647-701-6973,www.sumanroy.ca,39,
 "Syed, Alam",04-May-18,,,,39,
+"Saifullah, Nur",26-Jul-18,,,,39, 
 "Bucao, Randy",09-May-18,randy.bucao@bell.net,647-478-7710,www.voterandybucao.ca/,40,
 "Thompson, Michael",09-May-18,,,,40,1
 "Bidawi, Fawzi",16-Jul-18,,,,40,
@@ -219,10 +226,4 @@ name,nomination_date,email,phone,website,ward,incumbent
 "Riley, Christopher",23-Jul-18,,,,47,
 "Thomas, Joseph",25-Jul-18,,,,47,
 "Warner, Emery",26-Jul-18,,,,47,
-"Gikas, George",26-Jul-18,,,,4,
-"Charles, Kristy-Ann",26-Jul-18,,,,8,
-"Gordanier, Tim",26-Jul-18,,,,21,
-"Barcelos, Michael",26-Jul-18,,,,24,
-"Jeffery, John",26-Jul-18,,,,25,
-"Shakeri, Hamid",26-Jul-18,,,,29,
-"Saifullah, Nur",26-Jul-18,,,,39, 
+"Myers, Rick",26-Jul-18,,,,22,
