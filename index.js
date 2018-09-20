@@ -53,7 +53,7 @@ const getColor = (wardString) => {
 
 const featureStyle = (feature) => {
   return {
-    fillColor: getColor(feature.properties.AREA_NAME),
+    fillColor: getColor(feature.properties.AREA_L_CD),
     fillOpacity: 0.3,
     weight: 2,
     opacity: 1,
@@ -195,9 +195,10 @@ class Map {
   }
 
   showInfo() {
-    const name = parseInt(this.ward.feature.properties.AREA_NAME)
+    const name = this.ward.feature.properties.AREA_NAME;
+    const num = parseInt(this.ward.feature.properties.AREA_L_CD);
     this.infoBox.update(
-      name,
+      `${num}—${name}`,
       councillorsByWard[name] || []
     );
   }

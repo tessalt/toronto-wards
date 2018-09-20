@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "parcel watch index.html",
-    "cp:data": "cp data/wards.json dist/data/wards.json",
+    "cp:data": "cp data/wards.geojson dist/data/wards.geojson",
     "clean": "rm -rf dist/data && mkdir dist/data",
     "start": "npm run clean && npm run cp:data && npm run watch"
   },
