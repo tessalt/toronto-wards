@@ -116,6 +116,9 @@ class InfoBox {
   render() {
     this.div.classList.add('active');
     const info = this.open ? `<ul class='info-box-info'>${this.array.map((candidate, index) => {
+      if (candidate['"name"']) {
+        candidate.name = candidate['"name"'];
+      }
       const date = `${format(parse(candidate.nomination_date), 'MMM Do')}`
       return `<li>
         <div data-index='${index}' class='candidate'>
@@ -199,7 +202,7 @@ class Map {
     const num = parseInt(this.ward.feature.properties.AREA_L_CD);
     this.infoBox.update(
       `${num}—${name}`,
-      councillorsByWard[name] || []
+      councillorsByWard[num] || []
     );
   }
 
